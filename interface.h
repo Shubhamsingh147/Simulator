@@ -6,6 +6,7 @@
 #include <time.h>
 
 using namespace std;
+//A module to analyse the given processes in form of cpp/c programs
 void run_prog(string c)
 {
 	system(c.c_str());	
@@ -14,13 +15,14 @@ void run_prog(string c)
 int main(int argc, char *argv[]){
 	
 	int i=0;string c;
-	string file[100];
-	float arrival_time[100],burst_time[100];
+	string file[100];                         //Declare array of file names(Max-100)
+	float arrival_time[100],burst_time[100];  //Declare arrival, burst times and priorities of processes
 	int priority[100];
 	clock_t start_time,end_time;
-	system("clear");
+	system("clear");						 //Clear screen
 	cout<<"Ensure that files are in the same folder(sample files are p1.c & p2.c) \nPress 0 in file name to stop entering files!"<<endl;
 	while(1){
+		//Take the inputs
 		cout<<"Enter name of file #"<<i+1<<": ";	cin>>file[i];
 
 		if( file[i][0]=='0')
@@ -28,18 +30,18 @@ int main(int argc, char *argv[]){
 		
 		cout<<"Enter it's arrival time: ";		cin>>arrival_time[i];
 		cout<<"Enter it's Priority(unique int): ";		cin>>priority[i];
+		
 		//Execute the given program according to it's type(C++/C)
 		if(file[i][sizeof(file[i])]=='c')
 			c="gcc -o temp.out -pthread "+file[i];
 		else
 			c="g++ -o temp.out -pthread "+file[i]; 
 		start_time = clock();
-		  			//compile program to temp.out
-    	run_prog(c); //run the temp.out file
-		end_time = clock();
+    	run_prog(c); 						//compile program to temp.out and run the temp.out file
+		end_time = clock();					//Record the starting and end time to get burst time
 		system("rm temp.out");
 		cout<<"Calculating Burst time: ";
-		burst_time[i] = (((float)end_time - (float)start_time) / 1000000.0F ) * 1000; //4900/1000
+		burst_time[i] = (((float)end_time - (float)start_time) / 1000000.0F ) * 1000; //convert burst time of each element to seconds from milliseconds
 		cout<<burst_time[i]<<endl;
 		cout<<"******************************************************"<<endl;
 		i++;
